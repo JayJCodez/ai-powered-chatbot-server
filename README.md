@@ -73,14 +73,15 @@ The server will be running at `http://localhost:5100`
 
 ### Conversations
 
-- `POST /api/conversations/start-conversation` - Start a new conversation
-- `POST /api/conversations/send-message` - Send a message to a conversation
-- `GET /api/conversations/:id` - Get conversation by ID
+- `POST /api/conversations/start-conversation` - Start a new conversation (handled by ConversationRepository)
+- `POST /api/conversations/send-message` - Send a message to a conversation (handled by ConversationRepository)
 
 ### Users
 
-- `POST /api/users/create` - Create a new user
-- `GET /api/users/:id` - Get user by ID
+User creation and management are handled internally by the UserRepository class through the conversation endpoints. The application follows a repository pattern where:
+
+- **UserRepository** - Manages user creation and retrieval operations
+- **ConversationRepository** - Handles conversation and message management
 
 ## Database Schema
 
@@ -98,14 +99,14 @@ The frontend application can be found at: [Frontend Repository Link](https://git
 
 ```
 ChatBotServer-Express/
-├── controllers/           # Request handlers
+├── controllers/           # Request handlers (delegates to repositories)
 │   ├── ConversationController.js
 │   └── UserController.js
-├── models/               # Data models and repositories
+├── models/               # Data models and repository classes
 │   ├── Conversation.js
-│   ├── ConversationRepository.js
+│   ├── ConversationRepository.js  # Handles conversation business logic
 │   ├── User.js
-│   └── UserRepository.js
+│   └── UserRepository.js          # Handles user business logic
 ├── routers/              # API route definitions
 │   ├── index.js
 │   └── ConversationRouter.js
